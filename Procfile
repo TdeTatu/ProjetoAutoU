@@ -1,0 +1,1 @@
+web: gunicorn IAmail.wsgi --log-file -
