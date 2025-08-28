@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import json
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -131,3 +132,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+if not OPENAI_API_KEY:
+    secrets_file = BASE_DIR / 'secrets.json'
+    if secrets_file.exists():
+        with open(secrets_file) as f:
+            secrets = json.load(f)
+            OPENAI_API_KEY = secrets.get('OPENAI_API_KEY')
